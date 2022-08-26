@@ -1,3 +1,4 @@
+//功能组件测试
 import {
   h,
   Text,

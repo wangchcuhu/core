@@ -1,3 +1,4 @@
+//组件类型扩展测试
 import { defineComponent, expectError, expectType } from './index'
 
 declare module '@vue/runtime-core' {

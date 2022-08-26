@@ -1,3 +1,4 @@
+//反应宏测试
 import { WritableComputedRef } from '@vue/reactivity'
 import { expectType, ref, computed, Ref, ComputedRef } from './index'
 import 'vue/macros-global'

@@ -28,7 +28,7 @@ files.forEach(shortName => {
       name,
       version,
       description: name,
-      main: 'index.js',
+      main: 'index.ts',
       module: `dist/${shortName}.esm-bundler.js`,
       files: [`index.js`, `dist`],
       types: `dist/${shortName}.d.ts`,
@@ -81,7 +81,7 @@ files.forEach(shortName => {
     fs.writeFileSync(indexPath, ``)
   }
 
-  const nodeIndexPath = path.join(packagesDir, shortName, 'index.js')
+  const nodeIndexPath = path.join(packagesDir, shortName, 'index.ts')
   if (args.force || !fs.existsSync(nodeIndexPath)) {
     fs.writeFileSync(
       nodeIndexPath,

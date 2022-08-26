@@ -1,3 +1,4 @@
+//注入测试
 import { provide, inject, InjectionKey, expectType } from './index'
 
 const key: InjectionKey<number> = Symbol()

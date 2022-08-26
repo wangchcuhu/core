@@ -1,6 +1,7 @@
 // This directory contains a number of d.ts assertions
 // use \@ts-expect-error where errors are expected.
-
+//该目录包含许多d.ts断言
+//在预期错误的地方使用\@ts-expect-error。
 export * from '@vue/runtime-dom'
 
 export function describe(_name: string, _fn: () => void): void

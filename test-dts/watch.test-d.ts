@@ -1,3 +1,4 @@
+//watch测试
 import { ref, computed, watch, expectType } from './index'
 
 const source = ref('foo')
