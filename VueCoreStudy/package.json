@@ -3,5 +3,8 @@
   "version": "3.2.37",
   "packageManager": "pnpm@7.1.0",
   "scripts": {
+  },
+  "dependencies": {
+    "esbuild": "^0.14.35"
   }
 }

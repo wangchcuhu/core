@@ -6,13 +6,15 @@
 ## [jest.config.js](#jest)
 ## [vue目录](#vue)
   + [README.md](#vue-README.md)
-  
+## [runtime-dom](#runtime-dom)
+  + [README.md](#runtime-dom-README)
 ## test-dts
   + index.d.ts文件
   + component.test-d.ts文件
 
 ---
-
+![img.png](img.png)
+---
 <a id='introduce'>介绍</a>
 >本项目的主要目的是为了学习TS的语法，在学习Vue3.0的过程中不断的学习不断的学习TS的写法，项目
 > 中tsconfig是TS编辑器的配置文件，test-dts是测试各个功能的，我要是实现的是要在每行的代码上都要写上
@@ -52,3 +54,7 @@
 <a id='vue'>vue目录</a>
 - <a id='vue-README.md'>README.md</a>
   > README.md主要介绍了不同情况下需要加载不同的文件，具体看README.md已经全部翻译成了中文，一共是五个文件，主要是区分直接浏览器加载，构建工具加载和node.js加载，区分是否包含编辑器
+---
+<a id='runtime-dom'>runtime-dom</a>
+  > <a id='runtime-dom-README'>README.md</a>
+  > >这个包的和形式实现一个以dom为目标的渲染器

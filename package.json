@@ -3,7 +3,7 @@
   "version": "3.2.37",
   "packageManager": "pnpm@7.1.0",
   "scripts": {
-    "dev": "node scripts/dev.js",
+    "dev": "node scripts/dev.js", //在监视模式下运行Rollup进行开发
     "build": "node scripts/build.js",
     "size": "run-s size-global size-baseline",
     "size-global": "node scripts/build.js vue runtime-dom -f global -p",
@@ -24,7 +24,7 @@
     "serve-sfc-playground": "vite packages/sfc-playground --host",
     "serve": "serve",
     "open": "open http://localhost:5000/packages/template-explorer/local.html",
-    "preinstall": "node ./scripts/preinstall.js",
+    "preinstall": "node ./scripts/preinstall.js", //检查是否安装pnpm
     "prebuild-sfc-playground": "node scripts/build.js compiler reactivity-transform shared -af cjs && node scripts/build.js runtime reactivity shared -af esm-bundler && node scripts/build.js vue -f esm-bundler-runtime && node scripts/build.js vue -f esm-browser-runtime && node scripts/build.js compiler-sfc server-renderer -f esm-browser",
     "build-sfc-playground": "cd packages/sfc-playground && npm run build"
   },
@@ -34,7 +34,7 @@
   },
   "gitHooks": {
     "pre-commit": "lint-staged",
-    "commit-msg": "node scripts/verifyCommit.js"
+    "commit-msg": "node scripts/verifyCommit.js"//规范commit提交信息,使用尤大改写的yorkie，yorkie实际是fork husky，然后做了一些定制化的改动，使得钩子能从package.json的 "gitHooks"属性中读取
   },
   "lint-staged": {
     "*.js": [
@@ -69,7 +69,7 @@
     "conventional-changelog-cli": "^2.0.31",
     "csstype": "^3.0.3",
     "enquirer": "^2.3.2",
-    "esbuild": "^0.14.35",
+    "esbuild": "^0.14.35",//快速的打包器
     "eslint": "^7.7.0",
     "eslint-plugin-jest": "26.1.5",
     "execa": "^4.0.2",
