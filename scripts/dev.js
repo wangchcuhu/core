@@ -6,6 +6,7 @@
 const { build } = require('esbuild')
 const nodePolyfills = require('@esbuild-plugins/node-modules-polyfill')
 const { resolve, relative } = require('path')
+//这个函数将会获取你在命令行中输入的参数node 环境
 const args = require('minimist')(process.argv.slice(2))
 
 const target = args._[0] || 'vue'
