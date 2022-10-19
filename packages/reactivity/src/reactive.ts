@@ -179,6 +179,7 @@ export function shallowReadonly<T extends object>(target: T): Readonly<T> {
 }
 
 function createReactiveObject(
+  //这里就看出强类型语言的优势了，读代码很轻松
   target: Target,
   isReadonly: boolean,
   baseHandlers: ProxyHandler<any>,

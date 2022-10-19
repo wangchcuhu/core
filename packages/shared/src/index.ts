@@ -73,6 +73,7 @@ export const toRawType = (value: unknown): string => {
   return toTypeString(value).slice(8, -1)
 }
 
+
 export const isPlainObject = (val: unknown): val is object =>
   toTypeString(val) === '[object Object]'
 
