@@ -29,7 +29,7 @@ export interface Target {
   [ReactiveFlags.RAW]?: any
 }
 
-export const reactiveMap = new WeakMap<Target, any>()
+export const reactiveMap = new WeakMap<Target, any>()//这个池子是用来存代理对象和对象的WeakMap<obj,proxyObj>
 export const shallowReactiveMap = new WeakMap<Target, any>()
 export const readonlyMap = new WeakMap<Target, any>()
 export const shallowReadonlyMap = new WeakMap<Target, any>()
@@ -56,6 +56,8 @@ function targetTypeMap(rawType: string) {
 }
 
 function getTargetType(value: Target) {
+  //传入的对象如果带有__v_skip属性为true或者这个对象是不可扩展的，不可以添加新的属性
+  //就返回 0否则返回对象的类型 1(对象和数组)/2(Map,Set,WeakMap,WeakSet)/0
   return value[ReactiveFlags.SKIP] || !Object.isExtensible(value)
     ? TargetType.INVALID
     : targetTypeMap(toRawType(value))
@@ -177,7 +179,7 @@ export function shallowReadonly<T extends object>(target: T): Readonly<T> {
     shallowReadonlyMap
   )
 }
-
+//创建反应对象
 function createReactiveObject(
   //这里就看出强类型语言的优势了，读代码很轻松
   target: Target,
@@ -186,7 +188,9 @@ function createReactiveObject(
   collectionHandlers: ProxyHandler<any>,
   proxyMap: WeakMap<Target, any>
 ) {
+  //首先判断传入的参数是不是对象--如果不是对象直接返回
   if (!isObject(target)) {
+    //如果传入的参数不是对象，在开发环境下直接提示不能够reactive,然后直接返回对象
     if (__DEV__) {
       console.warn(`value cannot be made reactive: ${String(target)}`)
     }
@@ -194,26 +198,38 @@ function createReactiveObject(
   }
   // target is already a Proxy, return it.
   // exception: calling readonly() on a reactive object
+  //这里是判断一下目标是不是带有响应的标记(__v_raw属性(这些属性都是用来标记是不是已经经过响应式的系统了))并且__v_isReactive为假（代表没有经过响应系统）
+  //如果已经是响应对象了就扔出去
   if (
     target[ReactiveFlags.RAW] &&
     !(isReadonly && target[ReactiveFlags.IS_REACTIVE])
   ) {
     return target
   }
+  //通过proxyMap(WeakMap)这个池子判断这个对象是不是已经在池子里存对应的代理对象了
   // target already has corresponding Proxy
   const existingProxy = proxyMap.get(target)
   if (existingProxy) {
     return existingProxy
   }
+  //只能观察到特定类型的值类型
   // only specific value types can be observed.
-  const targetType = getTargetType(target)
+  const targetType = getTargetType(target)//得到对象的类型
+  //如果targetType结果是0也直接返会目标，也就是只有特定的值才能够被观测
   if (targetType === TargetType.INVALID) {
     return target
   }
+  //将上述以西乱七八槽的情况都排除之后就可以安心的给对象添加响应系统
+  //将对象代理并且返回代理对象，根据对象targetType来判断到底使用哪种代理方式
+  //
   const proxy = new Proxy(
     target,
+    //Object Array Map  Set WeakMap WeakSet typeof结果都是object
+    //为什么会有这一步呢，应为 Map这种typeof的结果也是object,也就是isObject(target)没有将Map排除出去，需要单独处理
+    //Object,Array -使用baseHandlers处理， Map  Set WeakMap WeakSet使用collectionHandlers处理
     targetType === TargetType.COLLECTION ? collectionHandlers : baseHandlers
   )
+  //在proxyMap池子里保存代理
   proxyMap.set(target, proxy)
   return proxy
 }

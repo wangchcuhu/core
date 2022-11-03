@@ -76,7 +76,9 @@ export function computed<T>(
   options: WritableComputedOptions<T>,
   debugOptions?: DebuggerOptions
 ): WritableComputedRef<T>
+//通过computed这个函数就可以进行跟踪，凡是入参中用到的属性都要进行跟踪，函数的入参的T是可以通过入参的T推断出来的
 export function computed<T>(
+  //这里的T是推导出来的比如 getterOrOptions = () =>value.foo  --这里的T因该就是foo的类型
   getterOrOptions: ComputedGetter<T> | WritableComputedOptions<T>,
   debugOptions?: DebuggerOptions,
   isSSR = false

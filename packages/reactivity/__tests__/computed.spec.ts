@@ -13,8 +13,11 @@ import {
 } from '../src'
 
 describe('reactivity/computed', () => {
+  //因该返回更新的值
   it('should return updated value', () => {
+    //定义如果存在foo就是number
     const value = reactive<{ foo?: number }>({})
+    //通过computed计算value得到的值，当value变化的时候cValue也会变化
     const cValue = computed(() => value.foo)
     expect(cValue.value).toBe(undefined)
     value.foo = 1

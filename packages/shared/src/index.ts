@@ -58,6 +58,7 @@ export const isFunction = (val: unknown): val is Function =>
 export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
 export const isObject = (val: unknown): val is Record<any, any> =>
+  //排除null typeof null 结果是object  Record这里是高级用法val is Record<any, any>这里可以简单的理解成不管是什么结果都让他通过
   val !== null && typeof val === 'object'
 
 export const isPromise = <T = any>(val: unknown): val is Promise<T> => {

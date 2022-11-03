@@ -17,7 +17,6 @@ import { ComputedRefImpl } from './computed'
 // raw Sets to reduce memory overhead.
 type KeyToDepMap = Map<any, Dep>
 const targetMap = new WeakMap<any, KeyToDepMap>()
-
 // The number of effects currently being tracked recursively.
 let effectTrackDepth = 0
 
@@ -29,7 +28,7 @@ export let trackOpBit = 1
  * When recursion depth is greater, fall back to using a full cleanup.
  */
 const maxMarkerBits = 30
-
+//这里就是直接把type当作函数来用了
 export type EffectScheduler = (...args: any[]) => any
 
 export type DebuggerEvent = {
@@ -76,6 +75,8 @@ export class ReactiveEffect<T = any> {
   onTrigger?: (event: DebuggerEvent) => void
 
   constructor(
+    //使用public是暴露这个参数第一个入参是fn--返回T类型，第二个参数是调度器也是一个函数
+    //class是准备阶段，function是运行阶段
     public fn: () => T,
     public scheduler: EffectScheduler | null = null,
     scope?: EffectScope
@@ -84,17 +85,23 @@ export class ReactiveEffect<T = any> {
   }
 
   run() {
+    //active标志位--false返回执行的结果 true就啥都不干
     if (!this.active) {
       return this.fn()
     }
+    //这里的undefined是因为JS本质上所有没有赋值的变量都自动给了undefined这个初始化
+    //像activeEffect这种就相当于本地的全局变量
     let parent: ReactiveEffect | undefined = activeEffect
+
     let lastShouldTrack = shouldTrack
+    //本地的parent是不是指向自身
     while (parent) {
       if (parent === this) {
         return
       }
       parent = parent.parent
     }
+
     try {
       this.parent = activeEffect
       activeEffect = this
